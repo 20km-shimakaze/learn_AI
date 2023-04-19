@@ -18,6 +18,7 @@ def net(X):
 
 # 交叉熵损失
 def cross_entropy(y_hat, y):
+    # y中是长度为batch_size的以为张量，表示为这个图片属于的类别的序号
     return - torch.log(y_hat[range(len(y_hat)), y])
 
 
@@ -139,6 +140,16 @@ def train_ch3(net, train_iter, test_iter, loss, num_epochs, updater):
     assert 0.7 < test_acc <= 1, test_acc
 
 
+def predict_ch3(net, test_iter, n=6):
+    """预测标签"""
+    for X, y in test_iter:
+        break
+    trues = d2l.get_fashion_mnist_labels(y)
+    preds = d2l.get_fashion_mnist_labels(net(X).argmax(axis=1))
+    titles = [true+'\n'+pred for true, pred in zip(trues, preds)]
+    d2l.show_images(X[0:n].reshape((n, 28, 28)), 1, n, titles=titles[0:n])
+
+
 lr = 0.1
 batch_size = 256
 train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
@@ -150,4 +161,5 @@ W = torch.normal(0, 0.01, size=(num_inputs, num_outputs), requires_grad=True)
 b = torch.zeros(num_outputs, requires_grad=True)
 num_epochs = 6
 train_ch3(net, train_iter, test_iter, cross_entropy, num_epochs, updater)
+predict_ch3(net, test_iter)
 plt.show()
