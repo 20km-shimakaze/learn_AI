@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 from d2l import torch as d2l
-import matplotlib.pyplot as plt
 
 
 net = nn.Sequential(nn.Flatten(), nn.Linear(784, 256), nn.ReLU(), nn.Linear(256, 10))
