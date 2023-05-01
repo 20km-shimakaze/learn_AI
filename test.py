@@ -1,9 +1,26 @@
+import time
 import torch
-x = torch.tensor([2,0])
-y = torch.tensor([[1,9,2],[4,3,6],[7,5,8]])
-print(y[[2,0],[0,2]])
-print(y[[0,2,2],[2,0,1]])
-print(len(y))
-print(y.argmax(axis=0))
-print(y.argmax(axis=1))
-print([0.]*3)
+
+# 计算量较大的任务
+X = torch.rand((10000, 10000))
+Y = X.cuda(0)
+time_start = time.time()
+Z = torch.mm(X, X)
+time_end = time.time()
+print(f'cpu time cost: {round((time_end - time_start) * 1000, 2)}ms')
+time_start = time.time()
+Z = torch.mm(Y, Y)
+time_end = time.time()
+print(f'gpu time cost: {round((time_end - time_start) * 1000, 2)}ms')
+
+# 计算量很小的任务
+X = torch.rand((100, 100))
+Y = X.cuda(0)
+time_start = time.time()
+Z = torch.mm(X, X)
+time_end = time.time()
+print(f'cpu time cost: {round((time_end - time_start) * 1000)}ms')
+time_start = time.time()
+Z = torch.mm(Y, Y)
+time_end = time.time()
+print(f'gpu time cost: {round((time_end - time_start) * 1000)}ms')
