@@ -18,7 +18,7 @@ def net(X):
 
 # 交叉熵损失
 def cross_entropy(y_hat, y):
-    # y中是长度为batch_size的以为张量，表示为这个图片属于的类别的序号
+    # y中是长度为batch_size的一维张量，表示为这个图片属于的类别的序号
     return - torch.log(y_hat[range(len(y_hat)), y])
 
 
